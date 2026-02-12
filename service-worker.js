@@ -1,4 +1,4 @@
-const CACHE_NAME = "dictionary-app-cache-v1";
+const CACHE_NAME = "dictionary-app-cache-v2";
 const urlsToCache = [
   "/dictionary-app/",
   "/dictionary-app/index.html",
@@ -11,6 +11,7 @@ const urlsToCache = [
 
 // Install Service Worker
 self.addEventListener("install", (event) => {
+  self.skipWaiting();   // 🔥 Force activation immediately
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(urlsToCache);
@@ -20,6 +21,7 @@ self.addEventListener("install", (event) => {
 
 // Activate Service Worker
 self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());  // 🔥 Take control instantly
   console.log("Service Worker Activated");
 });
 
