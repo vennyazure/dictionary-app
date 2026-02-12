@@ -129,12 +129,17 @@ document.getElementById("inp-word").addEventListener("keypress", function (event
 
 // ✅ Register Service Worker (must be outside all functions)
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
+  window.addEventListener("load", function () {
     navigator.serviceWorker
-      .register("/dictionary-app/service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch((err) => console.log("Service Worker Failed:", err));
+      .register("/dictionary-app/service-worker.js", { scope: "/dictionary-app/" })
+      .then(function (registration) {
+        console.log("Service Worker Registered:", registration.scope);
+      })
+      .catch(function (error) {
+        console.log("Service Worker Registration Failed:", error);
+      });
   });
 }
+
 
 
